@@ -1,0 +1,2 @@
+CREATE DATABASE federation_agricole;
+USE federation_agricole;
