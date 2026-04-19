@@ -7,12 +7,18 @@ INSERT INTO ville (id_ville, nom) VALUES
 (3,'Fianarantsoa');
 
 -- =========================
--- DOMAINES
+-- DOMAINES/ SECTEUR
 -- =========================
 INSERT INTO domaine (id_domaine, nom) VALUES
 (1,'Riziculture'),
 (2,'Vanille'),
 (3,'Elevage');
+
+INSERT INTO secteur (id_secteur, nom) VALUES
+(1,'Agricole'),
+(2,'Elevage'),
+(3,'Peche'),
+(4,'Artisanat');
 
 -- =========================
 -- FEDERATION
@@ -24,9 +30,13 @@ VALUES (1,'Federation Agricole Madagascar');
 -- COLLECTIVITE
 -- =========================
 INSERT INTO collectivite
-(id_collectivite, numero, nom, date_creation, id_ville, id_domaine, id_federation, autorisation)
+(id_collectivite, numero, nom, date_creation, id_ville, id_domaine, id_federation, autorisation, id_secteur)
 VALUES
-(1,100,'Agri Tana','2023-01-01',1,1,1,TRUE);
+(1,100,'Agri Tana','2023-01-01',1,1,1,TRUE,1),
+(2,101,'Elevage Fianar','2023-02-01',3,3,1,TRUE,2),
+(3,102,'Peche Tamatave','2023-03-01',2,2,1,TRUE,3),
+(4,103,'Artisanat Tana','2023-04-01',1,1,1,TRUE,4),
+(5,104,'Coop Riz Itasy','2023-05-01',1,1,1,FALSE,1);
 
 -- =========================
 -- MEMBRES (10 minimum)

@@ -58,6 +58,7 @@ CREATE TABLE collectivite (
     id_ville INT NOT NULL REFERENCES ville(id_ville),
     id_domaine INT NOT NULL REFERENCES domaine(id_domaine),
     id_federation INT REFERENCES federation(id_federation),
+    id_secteur INT REFERENCES secteur(id_secteur)
     autorisation BOOLEAN DEFAULT FALSE
 );
 
