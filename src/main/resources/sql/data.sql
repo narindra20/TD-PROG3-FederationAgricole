@@ -1,143 +1,125 @@
 -- =========================
--- VILLES / SECTEURS / DOMAINES / FEDERATIONS
+-- VILLES
 -- =========================
-
-INSERT INTO ville (nom) VALUES
-('Antananarivo'),
-('Toamasina'),
-('Fianarantsoa');
-
-INSERT INTO secteur (nom) VALUES
-('Agricole'),
-('Elevage'),
-('Pêche');
-
-INSERT INTO domaine (nom) VALUES
-('Riziculture'),
-('Horticulture'),
-('Agro-industrie');
-
-INSERT INTO federation (nom) VALUES
-('Fédération Agricole Centrale'),
-('Union des Coopératives de Madagascar');
-
+INSERT INTO ville (id_ville, nom) VALUES
+(1,'Antananarivo'),
+(2,'Toamasina'),
+(3,'Fianarantsoa');
 
 -- =========================
--- COLLECTIVITES
+-- DOMAINES
 -- =========================
+INSERT INTO domaine (id_domaine, nom) VALUES
+(1,'Riziculture'),
+(2,'Vanille'),
+(3,'Elevage');
 
-INSERT INTO collectivite (numero, nom, date_creation, id_ville, id_domaine, id_federation, autorisation)
+-- =========================
+-- FEDERATION
+-- =========================
+INSERT INTO federation (id_federation, nom)
+VALUES (1,'Federation Agricole Madagascar');
+
+-- =========================
+-- COLLECTIVITE
+-- =========================
+INSERT INTO collectivite
+(id_collectivite, numero, nom, date_creation, id_ville, id_domaine, id_federation, autorisation)
 VALUES
-(1001, 'Coopérative Soa Firenena', '2020-05-12', 1, 1, 1, TRUE),
-(1002, 'Union Vary Be', '2019-03-20', 2, 2, 2, TRUE),
-(1003, 'Agriculteurs Fitiavana', '2021-08-01', 3, 3, NULL, FALSE);
-
+(1,100,'Agri Tana','2023-01-01',1,1,1,TRUE);
 
 -- =========================
--- MEMBRES
+-- MEMBRES (10 minimum)
 -- =========================
-
-INSERT INTO membre (nom, prenom, date_naissance, genre, adresse, telephone, email, date_adhesion, metier)
-VALUES
-('Rakoto', 'Jean', '1985-04-10', 'M', 'Antananarivo Centre', '0340011223', 'rakoto.jean@mail.com', '2020-06-01', 'Producteur'),
-('Rasoanaivo', 'Marie', '1990-09-15', 'F', 'Toamasina Port', '0340044556', 'marie.raso@mail.com', '2021-02-10', 'Collecteur'),
-('Andrianina', 'Paul', '1978-12-20', 'M', 'Fianarantsoa Haut', '0340099887', 'paul.andri@mail.com', '2019-11-05', 'Autre'),
-('Ravelo', 'Lina', '1995-07-08', 'F', 'Antananarivo Est', '0340022334', 'lina.ravelo@mail.com', '2022-01-15', 'Producteur');
-
-
--- =========================
--- PARRAINAGE
--- =========================
-
-INSERT INTO parrainage (id_parrain, id_filleul, date_parrainage)
-VALUES
-(1, 2, '2021-03-01'),
-(1, 3, '2020-07-15'),
-(2, 4, '2022-02-01');
-
+INSERT INTO membre VALUES
+(1,'Rakoto','Jean','1990-05-10','M','Tana','0340000001','jean@mail.com','2023-01-01','Producteur'),
+(2,'Rabe','Marie','1995-06-12','F','Tana','0340000002','marie@mail.com','2023-01-01','Collecteur'),
+(3,'Rasoa','Paul','1988-03-22','M','Tana','0340000003','paul@mail.com','2023-01-01','Producteur'),
+(4,'Rala','Anna','1992-11-05','F','Tana','0340000004','anna@mail.com','2023-01-01','Autre'),
+(5,'Ravo','Luc','1985-02-17','M','Tana','0340000005','luc@mail.com','2023-01-01','Producteur'),
+(6,'Rina','Sofia','1998-09-30','F','Tana','0340000006','sofia@mail.com','2023-01-01','Collecteur'),
+(7,'Rivo','Marc','1991-12-01','M','Tana','0340000007','marc@mail.com','2023-01-01','Producteur'),
+(8,'Hery','Lala','1993-07-07','F','Tana','0340000008','lala@mail.com','2023-01-01','Autre'),
+(9,'Tiana','Joel','1996-04-18','M','Tana','0340000009','joel@mail.com','2023-01-01','Producteur'),
+(10,'Kanto','Mia','1999-08-25','F','Tana','0340000010','mia@mail.com','2023-01-01','Collecteur');
 
 -- =========================
 -- ADHESION
 -- =========================
-
-INSERT INTO adhesion (id_membre, id_collectivite, date_entree, date_sortie, poste)
-VALUES
-(1, 1, '2020-06-01', NULL, 'President'),
-(2, 1, '2021-02-10', NULL, 'Secretaire'),
-(3, 2, '2019-11-05', NULL, 'Tresorier'),
-(4, 3, '2022-01-15', NULL, 'Junior');
-
+INSERT INTO adhesion VALUES
+(1,1,1,'2023-01-01',NULL,'President'),
+(2,2,1,'2023-01-01',NULL,'Tresorier'),
+(3,3,1,'2023-01-01',NULL,'Secretaire'),
+(4,4,1,'2023-01-01',NULL,'PresidentAdjoint'),
+(5,5,1,'2023-01-01',NULL,'Confirme'),
+(6,6,1,'2023-01-01',NULL,'Confirme'),
+(7,7,1,'2023-01-01',NULL,'Junior'),
+(8,8,1,'2023-01-01',NULL,'Junior'),
+(9,9,1,'2023-01-01',NULL,'Junior'),
+(10,10,1,'2023-01-01',NULL,'Junior');
 
 -- =========================
--- MANDATS
+-- PARRAINAGE (respect 90 jours)
 -- =========================
+INSERT INTO parrainage VALUES
+(1,5,7,'2023-06-01'),
+(2,5,8,'2023-06-01'),
+(3,6,9,'2023-06-01'),
+(4,6,10,'2023-06-01');
 
-INSERT INTO mandat (annee, duree)
-VALUES
-(2023, 1),
-(2024, 1);
+-- =========================
+-- MANDAT 2024
+-- =========================
+INSERT INTO mandat VALUES (1,2024,1);
 
-INSERT INTO mandat_poste (id_mandat, id_membre, id_collectivite, poste)
-VALUES
-(1, 1, 1, 'President'),
-(1, 2, 1, 'Secretaire'),
-(2, 3, 2, 'Tresorier');
-
+INSERT INTO mandat_poste VALUES
+(1,1,1,1,'President'),
+(2,1,4,1,'PresidentAdjoint'),
+(3,1,2,1,'Tresorier'),
+(4,1,3,1,'Secretaire');
 
 -- =========================
 -- ACTIVITES
 -- =========================
-
-INSERT INTO activite (titre, type, date_activite, obligatoire, id_collectivite, id_federation)
-VALUES
-('Assemblée Générale 2024', 'ASSEMBLEE', '2024-01-10', TRUE, 1, 1),
-('Formation Riziculture', 'FORMATION', '2024-02-15', TRUE, 2, 2),
-('Réunion exceptionnelle', 'EXCEPTIONNELLE', '2024-03-05', FALSE, 3, NULL);
-
+INSERT INTO activite VALUES
+(1,'Assemblée Janvier','ASSEMBLEE','2024-01-15',TRUE,1,NULL),
+(2,'Formation Juniors','FORMATION','2024-01-20',TRUE,1,NULL);
 
 -- =========================
 -- PRESENCE
 -- =========================
-
-INSERT INTO presence (id_membre, id_activite, present, excuse)
-VALUES
-(1, 1, TRUE, FALSE),
-(2, 1, TRUE, FALSE),
-(3, 2, FALSE, TRUE),
-(4, 3, TRUE, FALSE);
-
-
--- =========================
--- COTISATIONS
--- =========================
-
-INSERT INTO cotisation (id_membre, id_collectivite, montant, date_paiement, mode)
-VALUES
-(1, 1, 50000, '2024-01-10', 'ESPECE'),
-(2, 1, 30000, '2024-01-12', 'MOBILE_MONEY'),
-(3, 2, 45000, '2024-02-01', 'VIREMENT'),
-(4, 3, 20000, '2024-03-01', 'ESPECE');
-
+INSERT INTO presence VALUES
+(1,1,1,TRUE,FALSE),
+(2,2,1,TRUE,FALSE),
+(3,3,1,TRUE,FALSE),
+(4,4,1,TRUE,FALSE),
+(5,5,1,TRUE,FALSE),
+(6,6,1,TRUE,FALSE),
+(7,7,1,TRUE,FALSE),
+(8,8,1,FALSE,TRUE),
+(9,9,1,TRUE,FALSE),
+(10,10,1,TRUE,FALSE);
 
 -- =========================
--- COMPTES
+-- COTISATION (50 000 MGA)
 -- =========================
-
-INSERT INTO compte (type, solde, id_collectivite, id_federation)
-VALUES
-('CAISSE', 150000, 1, NULL),
-('BANQUE', 500000, NULL, 1),
-('MOBILE_MONEY', 80000, 2, NULL);
-
+INSERT INTO cotisation VALUES
+(1,1,1,50000,'2024-01-10','MOBILE_MONEY','MENSUELLE'),
+(2,2,1,50000,'2024-01-10','VIREMENT','MENSUELLE'),
+(3,3,1,50000,'2024-01-10','ESPECE','MENSUELLE');
 
 -- =========================
--- COMPTE BANCAIRE / MOBILE MONEY
+-- COMPTE CAISSE
 -- =========================
+INSERT INTO compte VALUES
+(1,'CAISSE',150000,1,NULL);
 
-INSERT INTO compte_bancaire (id_compte, titulaire, banque, numero_compte)
-VALUES
-(2, 'Fédération Centrale', 'BOA', 'MG1234567890');
+-- =========================
+-- COMPTE MOBILE MONEY
+-- =========================
+INSERT INTO compte VALUES
+(2,'MOBILE_MONEY',200000,1,NULL);
 
-INSERT INTO mobile_money (id_compte, titulaire, service, numero_tel)
-VALUES
-(3, 'Union Vary Be', 'MVOLA', '0340011223');
+INSERT INTO mobile_money VALUES
+(2,'Agri Tana','MVOLA','0340009999');
+

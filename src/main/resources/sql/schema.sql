@@ -18,6 +18,8 @@ CREATE TYPE banque_enum AS ENUM ('BRED','MCB','BMOI','BOA','BGFI','AFG','ACCES',
 
 CREATE TYPE activite_enum AS ENUM ('ASSEMBLEE','FORMATION','EXCEPTIONNELLE','FEDERATION');
 
+CREATE TYPE type_cotisation_enum AS ENUM ('MENSUELLE','ANNUELLE','EXCEPTIONNELLE');
+
 
 -- =========================
 -- LOCALISATION / STRUCTURE
@@ -120,7 +122,8 @@ CREATE TABLE mandat_poste (
     id_mandat INT NOT NULL REFERENCES mandat(id_mandat),
     id_membre INT NOT NULL REFERENCES membre(id_membre),
     id_collectivite INT NOT NULL REFERENCES collectivite(id_collectivite),
-    poste poste_enum
+    poste poste_enum,
+    UNIQUE (id_collectivite, id_mandat, poste)
 );
 
 
@@ -157,7 +160,8 @@ CREATE TABLE cotisation (
     id_collectivite INT NOT NULL REFERENCES collectivite(id_collectivite),
     montant DECIMAL(15,2) NOT NULL,
     date_paiement DATE,
-    mode mode_paiement_enum
+    mode mode_paiement_enum,
+    type type_cotisation_enum
 );
 
 
@@ -196,3 +200,4 @@ CREATE INDEX idx_adhesion_membre ON adhesion(id_membre);
 CREATE INDEX idx_cotisation_membre ON cotisation(id_membre);
 CREATE INDEX idx_presence_membre ON presence(id_membre);
 CREATE INDEX idx_activite_date ON activite(date_activite);
+
