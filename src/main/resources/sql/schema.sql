@@ -58,7 +58,7 @@ CREATE TABLE collectivite (
     id_ville INT NOT NULL REFERENCES ville(id_ville),
     id_domaine INT NOT NULL REFERENCES domaine(id_domaine),
     id_federation INT REFERENCES federation(id_federation),
-    id_secteur INT REFERENCES secteur(id_secteur)
+    id_secteur INT REFERENCES secteur(id_secteur),
     autorisation BOOLEAN DEFAULT FALSE
 );
 
@@ -79,7 +79,6 @@ CREATE TABLE membre (
     date_adhesion DATE,
     metier metier_enum
 );
-
 
 -- =========================
 -- PARRAINAGE
@@ -191,7 +190,6 @@ CREATE TABLE mobile_money (
     service service_mobile_enum,
     numero_tel VARCHAR(15)
 );
-
 
 -- =========================
 -- INDEX (PERFORMANCE)
