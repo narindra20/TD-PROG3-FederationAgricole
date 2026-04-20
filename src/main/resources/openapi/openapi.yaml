@@ -1,0 +1,419 @@
+openapi: 3.0.3
+
+info:
+  title: Federation Agricole API
+  description: Gestion des collectivités agricoles à Madagascar (membres, finances, activités, mandats)
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:8080
+
+paths:
+
+  # PING
+  /ping:
+    get:
+      summary: Test API
+      responses:
+        200:
+          description: pong
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: pong
+
+  # MEMBRES
+  /membres:
+    get:
+      summary: Liste des membres
+      responses:
+        200:
+          description: Liste des membres
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Membre'
+
+    post:
+      summary: Créer un membre
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateMembreDTO'
+      responses:
+        201:
+          description: Membre créé
+
+  # COLLECTIVITES
+
+  /collectivites:
+    get:
+      summary: Liste des collectivités
+      responses:
+        200:
+          description: Liste
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Collectivite'
+
+    post:
+      summary: Créer une collectivité
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateCollectiviteDTO'
+      responses:
+        201:
+          description: Collectivité créée
+
+
+  # ADHESIONS
+
+  /adhesions:
+    post:
+      summary: Ajouter un membre à une collectivité
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateAdhesionDTO'
+      responses:
+        201:
+          description: Adhésion créée
+
+
+  # COTISATIONS
+
+  /cotisations:
+    get:
+      summary: Liste des cotisations
+      responses:
+        200:
+          description: Liste
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Cotisation'
+
+    post:
+      summary: Ajouter une cotisation
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateCotisationDTO'
+      responses:
+        201:
+          description: Cotisation enregistrée
+
+
+  # ACTIVITES
+
+  /activites:
+    get:
+      summary: Liste des activités
+      responses:
+        200:
+          description: Liste
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Activite'
+
+    post:
+      summary: Créer une activité
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateActiviteDTO'
+      responses:
+        201:
+          description: Activité créée
+
+
+  # PRESENCES
+
+  /presences:
+    post:
+      summary: Enregistrer une présence
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreatePresenceDTO'
+      responses:
+        201:
+          description: Présence enregistrée
+
+
+  # COMPTES
+
+  /comptes:
+    get:
+      summary: Liste des comptes
+      responses:
+        200:
+          description: Liste des comptes
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Compte'
+
+    post:
+      summary: Créer un compte (caisse, banque, mobile money)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateCompteDTO'
+      responses:
+        201:
+          description: Compte créé
+
+  /comptes/collectivite/{id}:
+    get:
+      summary: Comptes d'une collectivité
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: Liste des comptes
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Compte'
+
+  /comptes/federation/{id}:
+    get:
+      summary: Comptes de la fédération
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: Comptes fédération
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Compte'
+
+
+  # MANDATS
+
+  /mandats:
+    post:
+      summary: Créer un mandat
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateMandatDTO'
+      responses:
+        201:
+          description: Mandat créé
+
+  /mandats/postes:
+    post:
+      summary: Attribution des postes dans un mandat
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateMandatPosteDTO'
+      responses:
+        201:
+          description: Poste attribué
+
+
+  # STATISTIQUES
+
+  /stats/collectivite/{id}:
+    get:
+      summary: Statistiques d'une collectivité
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: Stats
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StatCollectivite'
+
+
+# COMPONENTS
+
+components:
+
+  schemas:
+
+    # ===== MEMBRE =====
+    CreateMembreDTO:
+      type: object
+      properties:
+        nom: { type: string }
+        prenom: { type: string }
+        dateNaissance: { type: string, format: date }
+        genre: { type: string }
+        adresse: { type: string }
+        telephone: { type: string }
+        email: { type: string }
+        metier: { type: string }
+
+    Membre:
+      allOf:
+        - $ref: '#/components/schemas/CreateMembreDTO'
+      type: object
+      properties:
+        id: { type: integer }
+
+    # ===== COLLECTIVITE =====
+    CreateCollectiviteDTO:
+      type: object
+      properties:
+        nom: { type: string }
+        numero: { type: integer }
+        dateCreation: { type: string, format: date }
+        idVille: { type: integer }
+        idDomaine: { type: integer }
+        idFederation: { type: integer }
+
+    Collectivite:
+      allOf:
+        - $ref: '#/components/schemas/CreateCollectiviteDTO'
+      type: object
+      properties:
+        id: { type: integer }
+
+    # ===== ADHESION =====
+    CreateAdhesionDTO:
+      type: object
+      properties:
+        idMembre: { type: integer }
+        idCollectivite: { type: integer }
+        dateEntree: { type: string, format: date }
+        poste: { type: string }
+
+    # ===== COTISATION =====
+    CreateCotisationDTO:
+      type: object
+      properties:
+        idMembre: { type: integer }
+        idCollectivite: { type: integer }
+        montant: { type: number }
+        datePaiement: { type: string, format: date }
+        mode: { type: string }
+        type: { type: string }
+
+    Cotisation:
+      allOf:
+        - $ref: '#/components/schemas/CreateCotisationDTO'
+      type: object
+      properties:
+        id: { type: integer }
+
+    # ===== ACTIVITE =====
+    CreateActiviteDTO:
+      type: object
+      properties:
+        titre: { type: string }
+        type: { type: string }
+        dateActivite: { type: string, format: date }
+        obligatoire: { type: boolean }
+        idCollectivite: { type: integer }
+        idFederation: { type: integer }
+
+    Activite:
+      allOf:
+        - $ref: '#/components/schemas/CreateActiviteDTO'
+      type: object
+      properties:
+        id: { type: integer }
+
+    # ===== PRESENCE =====
+    CreatePresenceDTO:
+      type: object
+      properties:
+        idMembre: { type: integer }
+        idActivite: { type: integer }
+        present: { type: boolean }
+        excuse: { type: boolean }
+
+    # ===== COMPTES =====
+    CreateCompteDTO:
+      type: object
+      properties:
+        type: { type: string }
+        solde: { type: number }
+        idCollectivite: { type: integer }
+        idFederation: { type: integer }
+
+    Compte:
+      allOf:
+        - $ref: '#/components/schemas/CreateCompteDTO'
+      type: object
+      properties:
+        id: { type: integer }
+
+    # ===== MANDATS =====
+    CreateMandatDTO:
+      type: object
+      properties:
+        annee: { type: integer }
+        duree: { type: integer }
+
+    CreateMandatPosteDTO:
+      type: object
+      properties:
+        idMandat: { type: integer }
+        idMembre: { type: integer }
+        idCollectivite: { type: integer }
+        poste: { type: string }
+
+    # ===== STATS =====
+    StatCollectivite:
+      type: object
+      properties:
+        nbMembres: { type: integer }
+        tauxAssiduite: { type: number }
+        totalCotisations: { type: number }
+        impayes: { type: number }
