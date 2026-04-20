@@ -17,12 +17,17 @@ public class CollectiviteController {
     }
 
     @PostMapping
-    public String test(@RequestBody CollectiviteDTO dto) {
-        return dto.getNom();
+    public void create(@RequestBody CollectiviteDTO dto) {
+        service.createCollectivite(dto);
     }
 
     @GetMapping
     public List<CollectiviteDTO> getAll() {
         return service.getAllCollectivites();
+    }
+
+    @GetMapping("/{id}")
+    public CollectiviteDTO getById(@PathVariable int id) {
+        return service.getById(id);
     }
 }

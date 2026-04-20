@@ -15,8 +15,34 @@ public class CollectiviteService {
         this.repository = repository;
     }
 
-    public void createCollectivite(CollectiviteDTO dto) {
+    // CREATE (A - ouverture collectivité)
+    public CollectiviteDTO createCollectivite(CollectiviteDTO dto) {
 
+        validate(dto);
+
+        repository.findByNom(dto.getNom())
+                .ifPresent(c -> {
+                    throw new RuntimeException("Collectivité déjà existante");
+                });
+
+        repository.save(dto);
+
+        return dto;
+    }
+
+    // GET ALL
+    public List<CollectiviteDTO> getAllCollectivites() {
+        return repository.findAll();
+    }
+
+    // GET BY ID
+    public CollectiviteDTO getById(int id) {
+        return repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Collectivité introuvable"));
+    }
+
+    // validation métier
+    private void validate(CollectiviteDTO dto) {
         if (dto.getNom() == null || dto.getNom().isBlank()) {
             throw new RuntimeException("Nom obligatoire");
         }
@@ -29,15 +55,16 @@ public class CollectiviteService {
             throw new RuntimeException("Date de création obligatoire");
         }
 
-        repository.findByNom(dto.getNom())
-                .ifPresent(c -> {
-                    throw new RuntimeException("Collectivité déjà existante");
-                });
+        if (dto.getIdVille() == null) {
+            throw new RuntimeException("Ville obligatoire");
+        }
 
-        repository.save(dto);
-    }
+        if (dto.getIdDomaine() == null) {
+            throw new RuntimeException("Domaine obligatoire");
+        }
 
-    public List<CollectiviteDTO> getAllCollectivites() {
-        return repository.findAll();
+        if (dto.getIdFederation() == null) {
+            throw new RuntimeException("Fédération obligatoire");
+        }
     }
 }
