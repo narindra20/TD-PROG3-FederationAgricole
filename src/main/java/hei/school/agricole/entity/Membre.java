@@ -2,7 +2,6 @@ package hei.school.agricole.entity;
 
 import hei.school.agricole.enums.Genre;
 import hei.school.agricole.enums.Metier;
-import jakarta.persistence.Entity;
 
 import java.time.LocalDate;
 public class Membre {

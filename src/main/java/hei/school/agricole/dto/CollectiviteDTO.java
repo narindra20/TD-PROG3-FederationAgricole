@@ -4,6 +4,7 @@ import java.time.LocalDate;
 
 public class CollectiviteDTO {
 
+    private Integer id;
     private String nom;
     private Integer numero;
     private LocalDate dateCreation;
@@ -12,6 +13,14 @@ public class CollectiviteDTO {
     private Integer idFederation;
 
     public CollectiviteDTO() {}
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public String getNom() {
         return nom;

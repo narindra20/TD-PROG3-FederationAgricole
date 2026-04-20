@@ -2,29 +2,40 @@ package hei.school.agricole.entity;
 
 import java.time.LocalDate;
 
-@Entity
 public class Collectivite {
+
     private Long id;
     private Integer numero;
     private String nom;
     private LocalDate dateCreation;
-    private Ville ville;
-    private Domaine domaine;
-    private Federation federation;
-    private Secteur secteur;
+
+    private Long villeId;
+    private Long domaineId;
+    private Long federationId;
+    private Long secteurId;
+
     private boolean autorisation;
 
-    public Collectivite(Long id, Integer numero, String nom, LocalDate dateCreation, Ville ville, Domaine domaine, Federation federation, Secteur secteur, boolean autorisation) {
+
+    public Collectivite() {
+    }
+
+
+    public Collectivite(Long id, Integer numero, String nom, LocalDate dateCreation,
+                        Long villeId, Long domaineId, Long federationId, Long secteurId,
+                        boolean autorisation) {
         this.id = id;
         this.numero = numero;
         this.nom = nom;
         this.dateCreation = dateCreation;
-        this.ville = ville;
-        this.domaine = domaine;
-        this.federation = federation;
-        this.secteur = secteur;
+        this.villeId = villeId;
+        this.domaineId = domaineId;
+        this.federationId = federationId;
+        this.secteurId = secteurId;
         this.autorisation = autorisation;
     }
+
+
 
     public Long getId() {
         return id;
@@ -58,36 +69,36 @@ public class Collectivite {
         this.dateCreation = dateCreation;
     }
 
-    public Ville getVille() {
-        return ville;
+    public Long getVilleId() {
+        return villeId;
     }
 
-    public void setVille(Ville ville) {
-        this.ville = ville;
+    public void setVilleId(Long villeId) {
+        this.villeId = villeId;
     }
 
-    public Domaine getDomaine() {
-        return domaine;
+    public Long getDomaineId() {
+        return domaineId;
     }
 
-    public void setDomaine(Domaine domaine) {
-        this.domaine = domaine;
+    public void setDomaineId(Long domaineId) {
+        this.domaineId = domaineId;
     }
 
-    public Federation getFederation() {
-        return federation;
+    public Long getFederationId() {
+        return federationId;
     }
 
-    public void setFederation(Federation federation) {
-        this.federation = federation;
+    public void setFederationId(Long federationId) {
+        this.federationId = federationId;
     }
 
-    public Secteur getSecteur() {
-        return secteur;
+    public Long getSecteurId() {
+        return secteurId;
     }
 
-    public void setSecteur(Secteur secteur) {
-        this.secteur = secteur;
+    public void setSecteurId(Long secteurId) {
+        this.secteurId = secteurId;
     }
 
     public boolean isAutorisation() {
