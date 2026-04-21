@@ -30,4 +30,17 @@ public class CollectiviteController {
     public CollectiviteDTO getById(@PathVariable int id) {
         return service.getById(id);
     }
+
+    // UPDATE
+    @PutMapping("/{id}")
+    public CollectiviteDTO update(@PathVariable int id,
+                                  @RequestBody CollectiviteDTO dto) {
+        return service.update(id, dto);
+    }
+
+    // DELETE
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable int id) {
+        service.delete(id);
+    }
 }

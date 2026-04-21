@@ -67,4 +67,23 @@ public class CollectiviteService {
             throw new RuntimeException("Fédération obligatoire");
         }
     }
+
+    // UPDATE
+    public CollectiviteDTO update(int id, CollectiviteDTO dto) {
+
+        // vérifier existence
+        repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Collectivité introuvable"));
+
+        validate(dto);
+
+        repository.update(id, dto);
+
+        return dto;
+    }
+
+    // DELETE
+    public void delete(int id) {
+        repository.delete(id);
+    }
 }

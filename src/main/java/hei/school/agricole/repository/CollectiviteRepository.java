@@ -112,4 +112,50 @@ public class CollectiviteRepository {
 
         return dto;
     }
+
+    // UPDATE
+    public void update(int id, CollectiviteDTO dto) {
+        String sql = """
+        UPDATE collectivite
+        SET nom = ?, numero = ?, date_creation = ?, id_ville = ?, id_domaine = ?, id_federation = ?
+        WHERE id_collectivite = ?
+    """;
+
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setString(1, dto.getNom());
+            ps.setInt(2, dto.getNumero());
+            ps.setDate(3, Date.valueOf(dto.getDateCreation()));
+            ps.setInt(4, dto.getIdVille());
+            ps.setInt(5, dto.getIdDomaine());
+            ps.setInt(6, dto.getIdFederation());
+            ps.setInt(7, id);
+
+            int rows = ps.executeUpdate();
+
+            if (rows == 0) {
+                throw new RuntimeException("Collectivité introuvable");
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    // DELETE
+    public void delete(int id) {
+        String sql = "DELETE FROM collectivite WHERE id_collectivite = ?";
+
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, id);
+
+            int rows = ps.executeUpdate();
+
+            if (rows == 0) {
+                throw new RuntimeException("Collectivité introuvable");
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

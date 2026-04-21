@@ -2,41 +2,20 @@ openapi: 3.0.3
 
 info:
   title: Federation Agricole API
-  description: Gestion des collectivités agricoles à Madagascar (membres, finances, activités, mandats)
-  version: 1.0.0
+  version: 2.0.0
 
 servers:
   - url: http://localhost:8080
 
 paths:
 
-  # PING
-  /ping:
-    get:
-      summary: Test API
-      responses:
-        200:
-          description: pong
-          content:
-            text/plain:
-              schema:
-                type: string
-                example: pong
-
-  # MEMBRES
+  # MEMBRE
   /membres:
     get:
       summary: Liste des membres
       responses:
         200:
-          description: Liste des membres
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Membre'
-
+          description: OK
     post:
       summary: Créer un membre
       requestBody:
@@ -47,23 +26,15 @@ paths:
               $ref: '#/components/schemas/CreateMembreDTO'
       responses:
         201:
-          description: Membre créé
+          description: Créé
 
-  # COLLECTIVITES
-
+  # COLLECTIVITE
   /collectivites:
     get:
       summary: Liste des collectivités
       responses:
         200:
-          description: Liste
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Collectivite'
-
+          description: OK
     post:
       summary: Créer une collectivité
       requestBody:
@@ -74,14 +45,14 @@ paths:
               $ref: '#/components/schemas/CreateCollectiviteDTO'
       responses:
         201:
-          description: Collectivité créée
+          description: Créée
+        400:
+          description: Conditions non respectées
 
-
-  # ADHESIONS
-
+  # ADHESION
   /adhesions:
     post:
-      summary: Ajouter un membre à une collectivité
+      summary: Ajouter un membre
       requestBody:
         required: true
         content:
@@ -90,24 +61,30 @@ paths:
               $ref: '#/components/schemas/CreateAdhesionDTO'
       responses:
         201:
-          description: Adhésion créée
+          description: Créée
+        400:
+          description: Conditions invalides
 
+  /adhesions/valider:
+    post:
+      summary: Valider adhésion
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateAdhesionDTO'
+      responses:
+        200:
+          description: Résultat
 
-  # COTISATIONS
-
+  # COTISATION
   /cotisations:
     get:
       summary: Liste des cotisations
       responses:
         200:
-          description: Liste
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Cotisation'
-
+          description: OK
     post:
       summary: Ajouter une cotisation
       requestBody:
@@ -118,24 +95,34 @@ paths:
               $ref: '#/components/schemas/CreateCotisationDTO'
       responses:
         201:
-          description: Cotisation enregistrée
+          description: Créée
 
+  # COMPTES
+  /comptes:
+    get:
+      summary: Liste des comptes
+      responses:
+        200:
+          description: OK
+    post:
+      summary: Créer un compte
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateCompteDTO'
+      responses:
+        201:
+          description: Créé
 
-  # ACTIVITES
-
+  # ACTIVITE
   /activites:
     get:
       summary: Liste des activités
       responses:
         200:
-          description: Liste
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Activite'
-
+          description: OK
     post:
       summary: Créer une activité
       requestBody:
@@ -146,14 +133,12 @@ paths:
               $ref: '#/components/schemas/CreateActiviteDTO'
       responses:
         201:
-          description: Activité créée
+          description: Créée
 
-
-  # PRESENCES
-
+  # PRESENCE
   /presences:
     post:
-      summary: Enregistrer une présence
+      summary: Enregistrer présence
       requestBody:
         required: true
         content:
@@ -162,80 +147,12 @@ paths:
               $ref: '#/components/schemas/CreatePresenceDTO'
       responses:
         201:
-          description: Présence enregistrée
+          description: Enregistrée
 
-
-  # COMPTES
-
-  /comptes:
-    get:
-      summary: Liste des comptes
-      responses:
-        200:
-          description: Liste des comptes
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Compte'
-
-    post:
-      summary: Créer un compte (caisse, banque, mobile money)
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/CreateCompteDTO'
-      responses:
-        201:
-          description: Compte créé
-
-  /comptes/collectivite/{id}:
-    get:
-      summary: Comptes d'une collectivité
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: integer
-      responses:
-        200:
-          description: Liste des comptes
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Compte'
-
-  /comptes/federation/{id}:
-    get:
-      summary: Comptes de la fédération
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: integer
-      responses:
-        200:
-          description: Comptes fédération
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Compte'
-
-
-  # MANDATS
-
+  # MANDAT
   /mandats:
     post:
-      summary: Créer un mandat
+      summary: Créer mandat
       requestBody:
         required: true
         content:
@@ -244,11 +161,11 @@ paths:
               $ref: '#/components/schemas/CreateMandatDTO'
       responses:
         201:
-          description: Mandat créé
+          description: Créé
 
   /mandats/postes:
     post:
-      summary: Attribution des postes dans un mandat
+      summary: Attribution postes
       requestBody:
         required: true
         content:
@@ -257,14 +174,12 @@ paths:
               $ref: '#/components/schemas/CreateMandatPosteDTO'
       responses:
         201:
-          description: Poste attribué
+          description: Attribué
 
-
-  # STATISTIQUES
-
+  # STATS COLLECTIVITE
   /stats/collectivite/{id}:
     get:
-      summary: Statistiques d'une collectivité
+      summary: Statistiques collectivité
       parameters:
         - name: id
           in: path
@@ -273,20 +188,39 @@ paths:
             type: integer
       responses:
         200:
-          description: Stats
+          description: OK
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/StatCollectivite'
 
-
-# COMPONENTS
+  # STATS FEDERATION
+  /stats/federation:
+    get:
+      summary: Statistiques fédération
+      parameters:
+        - name: dateDebut
+          in: query
+          schema:
+            type: string
+            format: date
+        - name: dateFin
+          in: query
+          schema:
+            type: string
+            format: date
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StatFederation'
 
 components:
 
   schemas:
 
-    # ===== MEMBRE =====
     CreateMembreDTO:
       type: object
       properties:
@@ -302,11 +236,9 @@ components:
     Membre:
       allOf:
         - $ref: '#/components/schemas/CreateMembreDTO'
-      type: object
       properties:
         id: { type: integer }
 
-    # ===== COLLECTIVITE =====
     CreateCollectiviteDTO:
       type: object
       properties:
@@ -320,20 +252,36 @@ components:
     Collectivite:
       allOf:
         - $ref: '#/components/schemas/CreateCollectiviteDTO'
-      type: object
       properties:
         id: { type: integer }
 
-    # ===== ADHESION =====
+    Parrain:
+      type: object
+      properties:
+        idMembre: { type: integer }
+        relation: { type: string }
+
     CreateAdhesionDTO:
       type: object
+      required:
+        - idMembre
+        - idCollectivite
+        - parrains
+        - montantAdhesion
+        - montantCotisation
       properties:
         idMembre: { type: integer }
         idCollectivite: { type: integer }
         dateEntree: { type: string, format: date }
         poste: { type: string }
+        parrains:
+          type: array
+          minItems: 2
+          items:
+            $ref: '#/components/schemas/Parrain'
+        montantAdhesion: { type: number }
+        montantCotisation: { type: number }
 
-    # ===== COTISATION =====
     CreateCotisationDTO:
       type: object
       properties:
@@ -347,38 +295,9 @@ components:
     Cotisation:
       allOf:
         - $ref: '#/components/schemas/CreateCotisationDTO'
-      type: object
       properties:
         id: { type: integer }
 
-    # ===== ACTIVITE =====
-    CreateActiviteDTO:
-      type: object
-      properties:
-        titre: { type: string }
-        type: { type: string }
-        dateActivite: { type: string, format: date }
-        obligatoire: { type: boolean }
-        idCollectivite: { type: integer }
-        idFederation: { type: integer }
-
-    Activite:
-      allOf:
-        - $ref: '#/components/schemas/CreateActiviteDTO'
-      type: object
-      properties:
-        id: { type: integer }
-
-    # ===== PRESENCE =====
-    CreatePresenceDTO:
-      type: object
-      properties:
-        idMembre: { type: integer }
-        idActivite: { type: integer }
-        present: { type: boolean }
-        excuse: { type: boolean }
-
-    # ===== COMPTES =====
     CreateCompteDTO:
       type: object
       properties:
@@ -387,14 +306,62 @@ components:
         idCollectivite: { type: integer }
         idFederation: { type: integer }
 
+    CompteBancaireDetails:
+      type: object
+      properties:
+        banque:
+          type: string
+          enum: [BRED, MCB, BMOI, BOA, BGFI, AFG, ACCES, BAOBAB, SIPEM]
+        numeroCompte: { type: string }
+
+    CompteMobileMoneyDetails:
+      type: object
+      properties:
+        operateur:
+          type: string
+          enum: [ORANGE_MONEY, MVOLA, AIRTEL_MONEY]
+        telephone: { type: string }
+
     Compte:
       allOf:
         - $ref: '#/components/schemas/CreateCompteDTO'
+      properties:
+        id: { type: integer }
+        detailsBancaire:
+          $ref: '#/components/schemas/CompteBancaireDetails'
+        detailsMobile:
+          $ref: '#/components/schemas/CompteMobileMoneyDetails'
+
+    CreateActiviteDTO:
       type: object
+      properties:
+        titre: { type: string }
+        type:
+          type: string
+          enum: [AG_MENSUELLE, FORMATION_JUNIOR, EXCEPTIONNELLE, FEDERATION]
+        cible:
+          type: string
+          enum: [TOUS, JUNIORS, SPECIFIQUE]
+        dateActivite: { type: string, format: date }
+        obligatoire: { type: boolean }
+        idCollectivite: { type: integer }
+        idFederation: { type: integer }
+
+    Activite:
+      allOf:
+        - $ref: '#/components/schemas/CreateActiviteDTO'
       properties:
         id: { type: integer }
 
-    # ===== MANDATS =====
+    CreatePresenceDTO:
+      type: object
+      properties:
+        idMembre: { type: integer }
+        idActivite: { type: integer }
+        present: { type: boolean }
+        excuse: { type: boolean }
+        externe: { type: boolean }
+
     CreateMandatDTO:
       type: object
       properties:
@@ -409,7 +376,6 @@ components:
         idCollectivite: { type: integer }
         poste: { type: string }
 
-    # ===== STATS =====
     StatCollectivite:
       type: object
       properties:
@@ -417,3 +383,25 @@ components:
         tauxAssiduite: { type: number }
         totalCotisations: { type: number }
         impayes: { type: number }
+        detailsMembres:
+          type: array
+          items:
+            type: object
+            properties:
+              idMembre: { type: integer }
+              tauxAssiduite: { type: number }
+              totalVerse: { type: number }
+              impaye: { type: number }
+
+    StatFederation:
+      type: object
+      properties:
+        collectivites:
+          type: array
+          items:
+            type: object
+            properties:
+              idCollectivite: { type: integer }
+              tauxAssiduite: { type: number }
+              pourcentageCotisationAJour: { type: number }
+              nouveauxAdherents: { type: integer }
